@@ -1,0 +1,36 @@
+{
+  "name": "jp-postal-mcp-server",
+  "version": "0.1.0",
+  "description": "Japanese postal code ⇄ address lookup with bundled official data — fully offline, no API key.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "node --test test/pipeline.test.mjs test/search.test.mjs",
+    "build": "tsc",
+    "build:data": "node scripts/build-data.mjs"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "japan",
+    "postal-code",
+    "zipcode",
+    "address",
+    "offline"
+  ],
+  "author": "h-kazuki-pixel",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "typescript": "^7.0.2"
+  },
+  "bin": {
+    "jp-postal-mcp-server": "dist/index.js"
+  }
+}
