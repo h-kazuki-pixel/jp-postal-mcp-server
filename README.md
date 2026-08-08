@@ -23,6 +23,7 @@ Japanese postal code ⇄ address lookup with bundled official data — fully off
 | 住所部分一致(全件走査) | — | 26ms |
 
 素朴実装(全レコードを文字列で保持)では112MBだったものを、文字列テーブル化により1/3に圧縮しています。
+測定条件: Linux x64 / Node 22 の単一実行での代表値。テストでは環境差を考慮した緩めの閾値(起動1500ms・60MB)をCIで常時検証しています。
 
 ## ツール
 
@@ -36,6 +37,22 @@ Japanese postal code ⇄ address lookup with bundled official data — fully off
 ### `search_address`
 
 住所の文字列(漢字またはカナの部分一致)から郵便番号を検索。都道府県・市区町村・町域のいずれにもマッチ。
+
+### 共通の引数と返却形式
+
+- どちらのツールも `limit`(返却件数の上限、既定50・最大200)を受け付けます
+- 返却は次の形のJSONです。`total` は全ヒット数、`returned` は実際に返した件数で、打ち切りの有無はこの2つの比較で分かります
+
+```jsonc
+{
+  "normalizedZipcode": "5220317",  // lookup_zipcodeのみ。正規化後の番号
+  "matchType": "exact",            // lookup_zipcodeのみ。exact(7桁) / prefix(3〜6桁)
+  "total": 1,                      // 全ヒット件数
+  "returned": 1,                   // 返却件数(limitで打ち切られた場合はtotalより小さい)
+  "records": [ ... ],              // 下記「返却レコードの読み方」参照
+  "dataVersion": "2607"            // 同梱データの版数(鮮度の確認はここ)
+}
+```
 
 ## セットアップをAIに任せる
 
@@ -58,7 +75,7 @@ jp-postal-mcp-server をセットアップしてください。
 ```bash
 git clone https://github.com/h-kazuki-pixel/jp-postal-mcp-server.git
 cd jp-postal-mcp-server
-npm install
+npm ci
 npm run build
 ```
 

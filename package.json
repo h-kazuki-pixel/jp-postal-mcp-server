@@ -29,8 +29,5 @@
   "devDependencies": {
     "@types/node": "^26.2.0",
     "typescript": "^7.0.2"
-  },
-  "bin": {
-    "jp-postal-mcp-server": "dist/index.js"
   }
 }
